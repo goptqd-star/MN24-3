@@ -1,3 +1,4 @@
+// FIX: Use 'import type' for Timestamp as it is used as a type.
 import type { Timestamp } from 'firebase/firestore';
 
 export enum MealType {

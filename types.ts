@@ -1,4 +1,5 @@
-import { Timestamp } from 'firebase/firestore';
+// FIX: Use 'import type' for Timestamp as it is used as a type.
+import type { Timestamp } from 'firebase/firestore';
 
 export enum MealType {
   KidsLunch = 'Bữa trưa (trẻ)',
@@ -86,7 +87,8 @@ export type AuditLogAction =
     | 'CREATE_CLASS' | 'UPDATE_CLASS' | 'DELETE_CLASS'
     | 'CREATE_USER' | 'UPDATE_USER' | 'DELETE_USER'
     | 'CREATE_ANNOUNCEMENT' | 'UPDATE_ANNOUNCEMENT' | 'DELETE_ANNOUNCEMENT'
-    | 'ARCHIVE_DATA';
+    // FIX: Added SEND_REMINDER action type for audit logging.
+    | 'ARCHIVE_DATA' | 'SEND_REMINDER';
 
 export interface AuditLog {
     id: string;

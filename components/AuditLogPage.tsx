@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useData } from '../contexts/DataContext';
 import { useUI } from '../contexts/UIContext';
 import { AuditLog } from '../types';
-import { DocumentData, DocumentSnapshot, Timestamp } from 'firebase/firestore';
+// FIX: Correctly import types from 'firebase/firestore'.
+import { Timestamp, type DocumentData, type DocumentSnapshot } from 'firebase/firestore';
 
 const LoadingSpinner: React.FC = () => (
     <div className="flex justify-center items-center p-8">

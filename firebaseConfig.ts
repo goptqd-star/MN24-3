@@ -1,8 +1,6 @@
-import { initializeApp, FirebaseApp } from "firebase/app";
-// Explicitly import firestore for its side-effects to ensure the service is registered.
-import "firebase/firestore"; 
-// Update imports to use the new API for persistence
-import { initializeFirestore, persistentLocalCache, Firestore } from "firebase/firestore";
+import { initializeApp, type FirebaseApp } from "firebase/app";
+// FIX: Correctly import functions and types from 'firebase/firestore'.
+import { initializeFirestore, persistentLocalCache, type Firestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 // =================================================================================================

@@ -1,4 +1,5 @@
 import { initializeApp, type FirebaseApp } from "firebase/app";
+// FIX: Correctly import functions and types from 'firebase/firestore'.
 import { initializeFirestore, persistentLocalCache, type Firestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 

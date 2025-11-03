@@ -140,7 +140,7 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ setView }) => {
             const currentDayStr = formatDate(today);
             
             let tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 1);
+            tomorrow.setDate(tomorrow.getDate() + 1);
             if (tomorrow.getDay() === 0) tomorrow.setDate(tomorrow.getDate() + 1);
             const tomorrowStr = formatDate(tomorrow);
 
@@ -220,22 +220,17 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ setView }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <StatCard 
                     title="Tổng suất ăn đăng ký" 
-                    // FIX: Use Intl.NumberFormat for robust locale-specific number formatting.
                     value={new Intl.NumberFormat('vi-VN').format(totalMeals)}
                     iconContainer={<TotalMealsIconContainer />}
                 >
                    <div className="space-y-2">
-                     {/* FIX: Use Intl.NumberFormat for robust locale-specific number formatting. */}
                      <p className="flex justify-between"><span>{MealType.KidsLunch}:</span> <span className="font-semibold">{new Intl.NumberFormat('vi-VN').format(totals[MealType.KidsLunch])}</span></p>
-                     {/* FIX: Use Intl.NumberFormat for robust locale-specific number formatting. */}
                      <p className="flex justify-between"><span>{MealType.TeachersLunch}:</span> <span className="font-semibold">{new Intl.NumberFormat('vi-VN').format(totals[MealType.TeachersLunch])}</span></p>
-                     {/* FIX: Use Intl.NumberFormat for robust locale-specific number formatting. */}
                      <p className="flex justify-between"><span>{MealType.KidsBreakfast} (cho ngày mai):</span> <span className="font-semibold">{new Intl.NumberFormat('vi-VN').format(totals[MealType.KidsBreakfast])}</span></p>
                    </div>
                 </StatCard>
                 <StatCard 
                     title="Các lớp chưa đăng ký"
-                    // FIX: Use Intl.NumberFormat for robust locale-specific number formatting.
                     value={new Intl.NumberFormat('vi-VN').format(missingClasses.length)}
                     iconContainer={<MissingClassesIconContainer count={missingClasses.length} />}
                     className={missingClassesCardClass}

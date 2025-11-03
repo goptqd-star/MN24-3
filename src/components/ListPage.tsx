@@ -55,14 +55,12 @@ const EmptyState: React.FC<{onRegisterClick: () => void}> = ({onRegisterClick}) 
 );
 
 const ListSummaryStatsBox: React.FC<{ totals: Record<MealType, number> | null }> = ({ totals }) => {
-    // FIX: Explicitly type the parameters in the `reduce` function to resolve a type inference issue.
     const totalAll = totals ? Object.values(totals).reduce((sum: number, count: number) => sum + count, 0) : 0;
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
             <div className="bg-teal-50 dark:bg-teal-900/50 p-4 rounded-lg">
                 <p className="text-sm font-medium text-teal-800 dark:text-teal-200">{MealType.KidsLunch}</p>
-                {/* FIX: Use Intl.NumberFormat for robust locale-specific number formatting to fix "Expected 0 arguments, but got 1" error on toLocaleString. */}
                 <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">{new Intl.NumberFormat('vi-VN').format(totals?.[MealType.KidsLunch] || 0)}</p>
             </div>
             <div className="bg-indigo-50 dark:bg-indigo-900/50 p-4 rounded-lg">

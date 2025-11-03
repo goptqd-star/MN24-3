@@ -7,6 +7,7 @@ import ListTableRow from './ListTableRow';
 import ListCard from './ListCard';
 import PaginationControls from './PaginationControls';
 import { TableSkeleton } from './skeletons';
+// FIX: Correctly import firestore functions.
 import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { getDb } from '../firebaseConfig';
 

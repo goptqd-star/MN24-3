@@ -1,7 +1,9 @@
 import React, { createContext, useState, useEffect, useCallback, useContext, ReactNode, useMemo } from 'react';
 import { User } from '../types';
 import { getDb, auth } from '../firebaseConfig';
+// FIX: Correctly import firestore functions from 'firebase/firestore'.
 import { doc, onSnapshot } from 'firebase/firestore';
+// FIX: Correctly import auth functions from 'firebase/auth'.
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut, updatePassword } from 'firebase/auth';
 
 // --- State and Dispatch combined ---

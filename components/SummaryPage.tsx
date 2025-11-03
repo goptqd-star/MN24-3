@@ -7,7 +7,8 @@ import CustomDatePicker from './CustomDatePicker';
 import ClassFilterDropdown from './ClassFilterDropdown';
 import SummaryTableRow from './SummaryTableRow';
 import SummaryCard from './SummaryCard';
-import { DocumentData, DocumentSnapshot } from 'firebase/firestore';
+// FIX: Use 'import type' for type-only imports to resolve module resolution errors.
+import type { DocumentData, DocumentSnapshot } from 'firebase/firestore';
 
 const formatDate = (date: Date): string => {
   const year = date.getFullYear();
