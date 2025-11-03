@@ -1,0 +1,5 @@
+{
+  "name": "Copy of MN 24-3 (E2)",
+  "description": "An application to register and manage daily meals for the 24/3 Preschool. It allows for single-day and multi-day registrations and provides a summary of registered meals.",
+  "requestFramePermissions": []
+}

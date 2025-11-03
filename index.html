@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký suất ăn - Mầm non 24/3</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#14b8a6"/>
+    <link rel="apple-touch-icon" href="/icon-192.png">
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+      // IIFE to set theme before React loads to prevent FOUC (Flash of Unstyled Content)
+      (function() {
+        try {
+          const theme = localStorage.getItem('theme');
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {
+          console.error('Could not set theme from localStorage', e);
+        }
+      })();
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "jspdf-autotable": "https://aistudiocdn.com/jspdf-autotable@^5.0.2",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.0",
+    "vite-plugin-pwa": "https://aistudiocdn.com/vite-plugin-pwa@^1.1.0",
+    "firebase/": "https://aistudiocdn.com/firebase@^12.5.0/",
+    "jspdf": "https://aistudiocdn.com/jspdf@^3.0.3",
+    "vite": "https://aistudiocdn.com/vite@^7.1.12"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-50 dark:bg-gray-900">
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/index.tsx"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

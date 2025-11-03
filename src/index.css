@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.toast-item {
+  animation: slideInRight 0.5s forwards;
+}
+@keyframes slideInRight {
+  from {
+      opacity: 0;
+      transform: translateX(100%);
+  }
+  to {
+      opacity: 1;
+      transform: translateX(0);
+  }
+}
+.highlight-update {
+  animation: highlight-fade 2.5s ease-out;
+}
+@keyframes highlight-fade {
+  0% { background-color: rgba(20, 184, 172, 0.3); }
+  100% { background-color: transparent; }
+}
+.highlight-user-class {
+  animation: highlight-user-row 3s ease-out;
+}
+@keyframes highlight-user-row {
+    0%, 10% { background-color: rgba(20, 184, 172, 0.4); }
+    100% { background-color: transparent; }
+}
+
+/* Modal and Dropdown animations */
+.modal-content, .dropdown-content {
+  animation: scaleIn 0.2s cubic-bezier(0.165, 0.840, 0.440, 1.000) forwards;
+}
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Ripple Effect */
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+  /* H-TRANSFORM-GPU for better performance on mobile */
+  transform: translate3d(0, 0, 0);
+}
+.ripple {
+  display: block;
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple-animation 600ms linear;
+  pointer-events: none;
+}
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Table Row Transitions */
+.table-row-item, .data-card {
+  animation: slideFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+@keyframes slideFadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(15px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* Hide spin buttons on number inputs */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Micro-interactions & Accessibility Improvements */
+/* Add a subtle press-down effect on active buttons for better feedback */
+button:active:not(:disabled), [role="button"]:active:not(:disabled) {
+  transform: scale(0.98);
+  transition: transform 0.1s;
+}
+
+/* Enhance focus visibility for keyboard users */
+*:focus-visible {
+  outline: 2px solid #2dd4bf !important; /* A bright teal outline */
+  outline-offset: 2px !important;
+  border-radius: 4px; /* Optional: adds rounded corners to the outline */
+}
+
+/* Add padding to the bottom of the main content and mobile nav when the offline banner is visible */
+main.pb-offline-banner {
+  padding-bottom: 7rem; /* Adjust based on nav + banner height */
+}
+.mobile-nav.pb-offline-banner {
+  bottom: 32px; /* Height of the offline indicator */
+}
+
+/* Utility to hide scrollbars */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Responsive Table/Card View */
+.mobile-card-view {
+  display: none;
+}
+@media (max-width: 768px) {
+  .desktop-table {
+    display: none;
+  }
+  .mobile-card-view {
+    display: block;
+  }
+  .data-card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    margin-bottom: 1rem;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+  }
+  .dark .data-card {
+    background-color: #1f2937; /* gray-800 */
+    border-color: #374151; /* gray-700 */
+  }
+}
