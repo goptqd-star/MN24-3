@@ -93,7 +93,7 @@ const SortableHeader: React.FC<{
     const directionIcon = sortConfig?.direction === 'asc' ? '▲' : '▼';
 
     return (
-        <th scope="col" className={`px-6 py-3 text-center align-top text-xs font-medium text-gray-500 dark:text-gray-300 uppercase cursor-pointer ${className}`} onClick={() => onSort(sortKey)}>
+        <th scope="col" className={`px-6 py-3 text-center align-top text-xs font-medium text-gray-500 dark:text-gray-300 uppercase cursor-pointer bg-gray-50 dark:bg-gray-700 ${className}`} onClick={() => onSort(sortKey)}>
             <div className="flex items-center justify-center space-x-1">
                 <span>{title}</span>
                 <span className={`transition-opacity duration-200 ${isSorted ? 'opacity-100' : 'opacity-30'}`}>{directionIcon}</span>
@@ -491,9 +491,9 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
                  {/* Desktop Table View */}
                 <div className="desktop-table overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead className="bg-gray-50 dark:bg-gray-700 sticky top-[56px] z-10 isolation-isolate">
+                        <thead className="sticky top-[56px] z-10 isolation-isolate">
                             <tr>
-                            <th scope="col" className="px-6 py-3 text-center">
+                            <th scope="col" className="px-6 py-3 text-center bg-gray-50 dark:bg-gray-700">
                                 {!isReadOnly && (
                                     <input
                                         type="checkbox"
@@ -509,7 +509,7 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
                             <SortableHeader title={MealType.KidsBreakfast} sortKey={MealType.KidsBreakfast} sortConfig={sortConfig} onSort={handleSort} />
                             <SortableHeader title={MealType.KidsLunch} sortKey={MealType.KidsLunch} sortConfig={sortConfig} onSort={handleSort} />
                             <SortableHeader title={MealType.TeachersLunch} sortKey={MealType.TeachersLunch} sortConfig={sortConfig} onSort={handleSort} />
-                            <th scope="col" className="px-6 py-3 text-center align-top text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Hành động</th>
+                            <th scope="col" className="px-6 py-3 text-center align-top text-xs font-medium text-gray-500 dark:text-gray-300 uppercase bg-gray-50 dark:bg-gray-700">Hành động</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
