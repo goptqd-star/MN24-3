@@ -23,7 +23,11 @@ const ListTableRow: React.FC<ListTableRowProps> = ({ data, isHighlighted, stt, i
     const highlightClass = isHighlighted ? 'highlight-update' : '';
     const userHighlightClass = isUserClassHighlight ? 'highlight-user-class' : '';
     return (
-        <tr data-classname={data.className} className={`table-row-item ${highlightClass} ${userHighlightClass} hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150`}>
+        <tr 
+            data-classname={data.className} 
+            className={`table-row-item ${highlightClass} ${userHighlightClass} hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150`}
+            style={{ scrollMarginTop: '72px' }}
+        >
             <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500 dark:text-gray-400">{stt}</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{data.className}</td>
             <MealCell mealData={data.kidsLunchCurrent} />
