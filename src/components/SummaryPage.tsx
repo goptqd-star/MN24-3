@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import { MealType, View, MealRegistration, Role } from '../types';
+import { MealType, View, MealRegistration, ClassInfo, Role } from '../types';
 import { useData } from '../contexts/DataContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useUI } from '../contexts/UIContext';
@@ -141,39 +141,48 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
     }
   }, [classes]);
 
-  const fetchMoreRegistrations = useCallback(async () => {
-    if (isFetchingMore || !hasMore) return;
-    setIsFetchingMore(true);
+  const fetchRegistrations = useCallback(async (loadMore = false) => {
+    if (!loadMore) {
+        setIsLoading(true);
+    } else {
+        setIsFetchingMore(true);
+    }
+    
     try {
-        const { registrations: newRegistrations, lastDoc: newLastDoc } = await getRegistrations({
+        const { registrations: newRegistrations, lastDoc: newLastDoc, totalCount } = await getRegistrations({
             dateRange: (dateRange.from && dateRange.to) ? dateRange : undefined,
-            classNames: selectedClasses,
+            classNames: selectedClasses.length > 0 ? selectedClasses : undefined,
             limit: ITEMS_PER_PAGE,
-            lastVisibleDoc: lastDoc,
-            skipCount: true
+            lastVisibleDoc: loadMore ? lastDoc : null,
+            skipCount: loadMore
         });
-        setRegistrations(prev => [...prev, ...newRegistrations]);
+        
+        setRegistrations(prev => loadMore ? [...prev, ...newRegistrations] : newRegistrations);
+        if (!loadMore) {
+            setTotalRecords(totalCount);
+        }
         setLastDoc(newLastDoc);
         setHasMore(newRegistrations.length === ITEMS_PER_PAGE);
+
     } catch (error) {
-        console.error("Failed to fetch more registrations", error);
-        addToast("Không thể tải thêm dữ liệu.", "error");
+        console.error("Failed to fetch registrations", error);
+        addToast("Không thể tải dữ liệu.", "error");
     } finally {
+        setIsLoading(false);
         setIsFetchingMore(false);
     }
-  }, [isFetchingMore, hasMore, getRegistrations, dateRange, selectedClasses, lastDoc, addToast]);
+  }, [getRegistrations, dateRange, selectedClasses, lastDoc, addToast]);
 
-
-  const loaderRef = useCallback((node: HTMLElement | null) => {
-      if (isLoading || isFetchingMore) return;
+  const loaderRef = useCallback(node => {
+      if (isFetchingMore || isLoading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver(entries => {
           if (entries[0].isIntersecting && hasMore) {
-              fetchMoreRegistrations();
+              fetchRegistrations(true);
           }
       });
       if (node) observer.current.observe(node);
-  }, [isLoading, isFetchingMore, hasMore, fetchMoreRegistrations]);
+  }, [isFetchingMore, isLoading, hasMore, fetchRegistrations]);
 
   useEffect(() => {
     const fetchTotals = async () => {
@@ -204,7 +213,7 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
 
 
   useEffect(() => {
-    // This effect handles fetching data when filters change.
+    // Reset and fetch data when filters change
     setRegistrations([]);
     setLastDoc(null);
     setHasMore(true);
@@ -212,30 +221,13 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
     setEditingRowKey(null);
     
     if (classes.length > 0 && selectedClasses.length > 0) {
-        setIsLoading(true);
-        getRegistrations({
-            dateRange: (dateRange.from && dateRange.to) ? dateRange : undefined,
-            classNames: selectedClasses,
-            limit: ITEMS_PER_PAGE,
-            lastVisibleDoc: null, // Always fetch the first page
-            skipCount: false
-        }).then(({ registrations: newRegistrations, lastDoc: newLastDoc, totalCount }) => {
-            setRegistrations(newRegistrations);
-            setTotalRecords(totalCount);
-            setLastDoc(newLastDoc);
-            setHasMore(newRegistrations.length === ITEMS_PER_PAGE);
-        }).catch((error) => {
-            console.error("Failed to fetch registrations", error);
-            addToast("Không thể tải dữ liệu.", "error");
-        }).finally(() => {
-            setIsLoading(false);
-        });
+        fetchRegistrations(false);
     } else if (classes.length > 0 && selectedClasses.length === 0) {
         setRegistrations([]);
         setTotalRecords(0);
         setIsLoading(false);
     }
-  }, [dateRange, selectedClasses, classes, dataVersion, getRegistrations, addToast]);
+  }, [dateRange, selectedClasses, classes, dataVersion]);
 
 
   const { paginatedData, isAllOnPageSelected } = useMemo(() => {
