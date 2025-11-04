@@ -141,48 +141,39 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
     }
   }, [classes]);
 
-  const fetchRegistrations = useCallback(async (loadMore = false) => {
-    if (!loadMore) {
-        setIsLoading(true);
-    } else {
-        setIsFetchingMore(true);
-    }
-    
+  const fetchMoreRegistrations = useCallback(async () => {
+    if (isFetchingMore || !hasMore) return;
+    setIsFetchingMore(true);
     try {
-        const { registrations: newRegistrations, lastDoc: newLastDoc, totalCount } = await getRegistrations({
+        const { registrations: newRegistrations, lastDoc: newLastDoc } = await getRegistrations({
             dateRange: (dateRange.from && dateRange.to) ? dateRange : undefined,
-            classNames: selectedClasses.length > 0 ? selectedClasses : undefined,
+            classNames: selectedClasses,
             limit: ITEMS_PER_PAGE,
-            lastVisibleDoc: loadMore ? lastDoc : null,
-            skipCount: loadMore
+            lastVisibleDoc: lastDoc,
+            skipCount: true
         });
-        
-        setRegistrations(prev => loadMore ? [...prev, ...newRegistrations] : newRegistrations);
-        if (!loadMore) {
-            setTotalRecords(totalCount);
-        }
+        setRegistrations(prev => [...prev, ...newRegistrations]);
         setLastDoc(newLastDoc);
         setHasMore(newRegistrations.length === ITEMS_PER_PAGE);
-
     } catch (error) {
-        console.error("Failed to fetch registrations", error);
-        addToast("Không thể tải dữ liệu.", "error");
+        console.error("Failed to fetch more registrations", error);
+        addToast("Không thể tải thêm dữ liệu.", "error");
     } finally {
-        setIsLoading(false);
         setIsFetchingMore(false);
     }
-  }, [getRegistrations, dateRange, selectedClasses, lastDoc, addToast]);
+  }, [isFetchingMore, hasMore, getRegistrations, dateRange, selectedClasses, lastDoc, addToast]);
+
 
   const loaderRef = useCallback((node: HTMLElement | null) => {
-      if (isFetchingMore || isLoading) return;
+      if (isLoading || isFetchingMore) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver(entries => {
           if (entries[0].isIntersecting && hasMore) {
-              fetchRegistrations(true);
+              fetchMoreRegistrations();
           }
       });
       if (node) observer.current.observe(node);
-  }, [isFetchingMore, isLoading, hasMore, fetchRegistrations]);
+  }, [isLoading, isFetchingMore, hasMore, fetchMoreRegistrations]);
 
   useEffect(() => {
     const fetchTotals = async () => {
@@ -213,7 +204,7 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
 
 
   useEffect(() => {
-    // Reset and fetch data when filters change
+    // This effect handles fetching data when filters change.
     setRegistrations([]);
     setLastDoc(null);
     setHasMore(true);
@@ -221,13 +212,30 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
     setEditingRowKey(null);
     
     if (classes.length > 0 && selectedClasses.length > 0) {
-        fetchRegistrations(false);
+        setIsLoading(true);
+        getRegistrations({
+            dateRange: (dateRange.from && dateRange.to) ? dateRange : undefined,
+            classNames: selectedClasses,
+            limit: ITEMS_PER_PAGE,
+            lastVisibleDoc: null, // Always fetch the first page
+            skipCount: false
+        }).then(({ registrations: newRegistrations, lastDoc: newLastDoc, totalCount }) => {
+            setRegistrations(newRegistrations);
+            setTotalRecords(totalCount);
+            setLastDoc(newLastDoc);
+            setHasMore(newRegistrations.length === ITEMS_PER_PAGE);
+        }).catch((error) => {
+            console.error("Failed to fetch registrations", error);
+            addToast("Không thể tải dữ liệu.", "error");
+        }).finally(() => {
+            setIsLoading(false);
+        });
     } else if (classes.length > 0 && selectedClasses.length === 0) {
         setRegistrations([]);
         setTotalRecords(0);
         setIsLoading(false);
     }
-  }, [dateRange, selectedClasses, classes, dataVersion, fetchRegistrations]);
+  }, [dateRange, selectedClasses, classes, dataVersion, getRegistrations, addToast]);
 
 
   const { paginatedData, isAllOnPageSelected } = useMemo(() => {
@@ -483,7 +491,7 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
                  {/* Desktop Table View */}
                 <div className="desktop-table overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead className="bg-gray-50 dark:bg-gray-700 sticky top-[56px] z-10">
+                        <thead className="bg-gray-50 dark:bg-gray-700 sticky top-[56px] z-10 isolation-isolate">
                             <tr>
                             <th scope="col" className="px-6 py-3 text-center">
                                 {!isReadOnly && (
@@ -532,9 +540,9 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
                             <tfoot className="bg-gray-100 dark:bg-gray-700/50">
                                 <tr>
                                     <th colSpan={3} className="px-6 py-3 text-right text-sm font-bold text-gray-700 dark:text-gray-200 uppercase">Tổng cộng</th>
-                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{new Intl.NumberFormat('vi-VN').format(reportTotals[MealType.KidsBreakfast] || 0)}</td>
-                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{new Intl.NumberFormat('vi-VN').format(reportTotals[MealType.KidsLunch] || 0)}</td>
-                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{new Intl.NumberFormat('vi-VN').format(reportTotals[MealType.TeachersLunch] || 0)}</td>
+                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{(reportTotals[MealType.KidsBreakfast] || 0).toLocaleString('vi-VN')}</td>
+                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{(reportTotals[MealType.KidsLunch] || 0).toLocaleString('vi-VN')}</td>
+                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{(reportTotals[MealType.TeachersLunch] || 0).toLocaleString('vi-VN')}</td>
                                     <td className="px-6 py-3"></td>
                                 </tr>
                             </tfoot>
