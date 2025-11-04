@@ -532,9 +532,9 @@ const SummaryPage: React.FC<{setView: (view: View) => void}> = ({setView}) => {
                             <tfoot className="bg-gray-100 dark:bg-gray-700/50">
                                 <tr>
                                     <th colSpan={3} className="px-6 py-3 text-right text-sm font-bold text-gray-700 dark:text-gray-200 uppercase">Tổng cộng</th>
-                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{(reportTotals[MealType.KidsBreakfast] || 0).toLocaleString('vi-VN')}</td>
-                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{(reportTotals[MealType.KidsLunch] || 0).toLocaleString('vi-VN')}</td>
-                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{(reportTotals[MealType.TeachersLunch] || 0).toLocaleString('vi-VN')}</td>
+                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{new Intl.NumberFormat('vi-VN').format(reportTotals[MealType.KidsBreakfast] || 0)}</td>
+                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{new Intl.NumberFormat('vi-VN').format(reportTotals[MealType.KidsLunch] || 0)}</td>
+                                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-800 dark:text-gray-100">{new Intl.NumberFormat('vi-VN').format(reportTotals[MealType.TeachersLunch] || 0)}</td>
                                     <td className="px-6 py-3"></td>
                                 </tr>
                             </tfoot>
