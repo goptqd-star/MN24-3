@@ -53,12 +53,14 @@ const EmptyState: React.FC<{onRegisterClick: () => void}> = ({onRegisterClick}) 
 );
 
 const ListSummaryStatsBox: React.FC<{ totals: Record<MealType, number> | null }> = ({ totals }) => {
+    // FIX: Explicitly type the parameters in the `reduce` function to resolve a type inference issue.
     const totalAll = totals ? Object.values(totals).reduce((sum: number, count: number) => sum + count, 0) : 0;
 
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
             <div className="bg-teal-50 dark:bg-teal-900/50 p-4 rounded-lg">
                 <p className="text-sm font-medium text-teal-800 dark:text-teal-200">{MealType.KidsLunch}</p>
+                {/* FIX: Use Intl.NumberFormat for robust locale-specific number formatting to fix "Expected 0 arguments, but got 1" error on toLocaleString. */}
                 <p className="text-2xl font-bold text-teal-600 dark:text-teal-400">{new Intl.NumberFormat('vi-VN').format(totals?.[MealType.KidsLunch] || 0)}</p>
             </div>
             <div className="bg-indigo-50 dark:bg-indigo-900/50 p-4 rounded-lg">
@@ -159,7 +161,7 @@ const ListPage: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
             setTimeout(() => {
                 const rowElement = document.querySelector(`tr[data-classname="${currentUser.assignedClass}"]`);
                 if (rowElement) {
-                    rowElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    rowElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     initialScrollDone.current = true;
                 }
             }, 100);
@@ -168,16 +170,12 @@ const ListPage: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
 
     const summaryTotals = useMemo(() => {
         const dataToTotal = listData.filter(item => selectedClasses.includes(item.className));
-        return dataToTotal.reduce((acc: Record<MealType, number>, item) => {
-            acc[MealType.KidsLunch] += item.kidsLunchCurrent.count;
-            acc[MealType.TeachersLunch] += item.teachersLunchCurrent.count;
-            acc[MealType.KidsBreakfast] += item.kidsBreakfastNext.count;
+        return dataToTotal.reduce((acc, item) => {
+            acc[MealType.KidsLunch] = (acc[MealType.KidsLunch] || 0) + item.kidsLunchCurrent.count;
+            acc[MealType.TeachersLunch] = (acc[MealType.TeachersLunch] || 0) + item.teachersLunchCurrent.count;
+            acc[MealType.KidsBreakfast] = (acc[MealType.KidsBreakfast] || 0) + item.kidsBreakfastNext.count;
             return acc;
-        }, {
-            [MealType.KidsLunch]: 0,
-            [MealType.TeachersLunch]: 0,
-            [MealType.KidsBreakfast]: 0,
-        });
+        }, {} as Record<MealType, number>);
     }, [listData, selectedClasses]);
 
     const paginatedData = useMemo(() => {
@@ -226,7 +224,7 @@ const ListPage: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
                 {/* Desktop Table View */}
                 <div className="desktop-table overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead className="bg-gray-50 dark:bg-gray-700 sticky top-[56px] z-10">
+                        <thead className="bg-gray-50 dark:bg-gray-700 sticky top-[56px] z-10 isolation-isolate">
                             <tr>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">STT</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Lớp</th>
