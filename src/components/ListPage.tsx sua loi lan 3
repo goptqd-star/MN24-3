@@ -1,12 +1,14 @@
 import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useData } from '../contexts/DataContext';
 import { useAuth } from '../contexts/AuthContext';
-import { MealType, View, ClassInfo, Role } from '../types';
+import { MealType, View, ClassInfo, Role, MealRegistration } from '../types';
 import ClassFilterDropdown from './ClassFilterDropdown';
 import ListTableRow from './ListTableRow';
 import ListCard from './ListCard';
 import PaginationControls from './PaginationControls';
 import { TableSkeleton } from './skeletons';
+import { collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
+import { getDb } from '../firebaseConfig';
 
 const formatDate = (date: Date): string => {
   const year = date.getFullYear();
