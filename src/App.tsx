@@ -105,7 +105,7 @@ const AppContent: React.FC = () => {
     ),
     [View.Management]: (
        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0 3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
@@ -150,11 +150,13 @@ const AppContent: React.FC = () => {
   const navOrder = getNavOrderForRole(currentUser.role);
 
   const renderNav = (isMobile: boolean) => {
-    const navItemsToRender = isMobile ? navOrder : navOrder;
-    const gridColsClass = isMobile ? `grid-cols-${navItemsToRender.length}` : '';
+    const navItemsToRender = navOrder;
     
     return (
-       <div className={isMobile ? `grid ${gridColsClass} items-start text-xs font-medium` : 'hidden sm:flex space-x-1'}>
+       <div 
+        className={isMobile ? `grid items-start text-xs font-medium` : 'hidden sm:flex space-x-1'}
+        style={isMobile ? { gridTemplateColumns: `repeat(${navItemsToRender.length}, 1fr)` } : {}}
+       >
         {navItemsToRender.map(navItem => {
           const baseClasses = isMobile ? "flex flex-col items-center justify-center pt-2 pb-1 space-y-1 w-full relative" : "relative flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors space-x-2";
           const activeClasses = isMobile ? "text-teal-600 dark:text-teal-400" : "bg-teal-600 text-white shadow";
