@@ -10,15 +10,15 @@ import { SKELETONS } from './components/skeletons';
 import OfflineIndicator from './components/OfflineIndicator';
 import ErrorBoundary from './components/ErrorBoundary';
 
-const DailyRegistrationForm = lazy(() => import('./components/DailyRegistrationForm.tsx'));
-const MultiDayRegistrationForm = lazy(() => import('./components/MultiDayRegistrationForm.tsx'));
-const SummaryPage = lazy(() => import('./components/SummaryPage.tsx'));
-const ListPage = lazy(() => import('./components/ListPage.tsx'));
-const ManagementPage = lazy(() => import('./components/ManagementPage.tsx'));
-const LoginPage = lazy(() => import('./components/LoginPage.tsx'));
-const UserProfileDropdown = lazy(() => import('./components/UserProfileDropdown.tsx'));
-const DashboardPage = lazy(() => import('./components/DashboardPage.tsx'));
-const AnnouncementsPage = lazy(() => import('./components/AnnouncementsPage.tsx'));
+const DailyRegistrationForm = lazy(() => import('./components/DailyRegistrationForm'));
+const MultiDayRegistrationForm = lazy(() => import('./components/MultiDayRegistrationForm'));
+const SummaryPage = lazy(() => import('./components/SummaryPage'));
+const ListPage = lazy(() => import('./components/ListPage'));
+const ManagementPage = lazy(() => import('./components/ManagementPage'));
+const LoginPage = lazy(() => import('./components/LoginPage'));
+const UserProfileDropdown = lazy(() => import('./components/UserProfileDropdown'));
+const DashboardPage = lazy(() => import('./components/DashboardPage'));
+const AnnouncementsPage = lazy(() => import('./components/AnnouncementsPage'));
 
 const AppContent: React.FC = () => {
   const { currentUser, authLoading } = useAuth();
@@ -184,7 +184,7 @@ const AppContent: React.FC = () => {
       <NotificationContainer />
       <OfflineIndicator isOffline={isOffline} />
 
-      <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-20 transition-colors no-print h-[56px] flex items-center">
+      <header className="bg-white dark:bg-gray-800 shadow-md sticky top-0 z-40 transition-colors no-print h-[56px] flex items-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
           <div className="flex justify-between items-center">
             <Logo />
