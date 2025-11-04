@@ -10,15 +10,15 @@ import { SKELETONS } from './components/skeletons';
 import OfflineIndicator from './components/OfflineIndicator';
 import ErrorBoundary from './components/ErrorBoundary';
 
-const DailyRegistrationForm = lazy(() => import('./components/DailyRegistrationForm'));
-const MultiDayRegistrationForm = lazy(() => import('./components/MultiDayRegistrationForm'));
-const SummaryPage = lazy(() => import('./components/SummaryPage'));
-const ListPage = lazy(() => import('./components/ListPage'));
-const ManagementPage = lazy(() => import('./components/ManagementPage'));
-const LoginPage = lazy(() => import('./components/LoginPage'));
-const UserProfileDropdown = lazy(() => import('./components/UserProfileDropdown'));
-const DashboardPage = lazy(() => import('./components/DashboardPage'));
-const AnnouncementsPage = lazy(() => import('./components/AnnouncementsPage'));
+const DailyRegistrationForm = lazy(() => import('./components/DailyRegistrationForm.tsx'));
+const MultiDayRegistrationForm = lazy(() => import('./components/MultiDayRegistrationForm.tsx'));
+const SummaryPage = lazy(() => import('./components/SummaryPage.tsx'));
+const ListPage = lazy(() => import('./components/ListPage.tsx'));
+const ManagementPage = lazy(() => import('./components/ManagementPage.tsx'));
+const LoginPage = lazy(() => import('./components/LoginPage.tsx'));
+const UserProfileDropdown = lazy(() => import('./components/UserProfileDropdown.tsx'));
+const DashboardPage = lazy(() => import('./components/DashboardPage.tsx'));
+const AnnouncementsPage = lazy(() => import('./components/AnnouncementsPage.tsx'));
 
 const AppContent: React.FC = () => {
   const { currentUser, authLoading } = useAuth();
