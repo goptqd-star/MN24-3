@@ -132,7 +132,10 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ setView }) => {
 
     useEffect(() => {
         const fetchDashboardData = async () => {
-            if (classes.length === 0) return;
+            if (classes.length === 0) {
+                setIsLoading(false);
+                return;
+            };
             setIsLoading(true);
 
             let today = new Date();
@@ -155,9 +158,14 @@ const DashboardPage: React.FC<DashboardPageProps> = ({ setView }) => {
 
             registrations.forEach(reg => {
                 if (reg.date === currentDayStr) {
-                    if (reg.mealType === MealType.KidsLunch) totals[MealType.KidsLunch] += reg.count;
-                    if (reg.mealType === MealType.TeachersLunch) totals[MealType.TeachersLunch] += reg.count;
-                    if(reg.count > 0) registeredClassesToday.add(reg.className);
+                    if (reg.mealType === MealType.KidsLunch) {
+                        totals[MealType.KidsLunch] += reg.count;
+                        if (reg.count > 0) registeredClassesToday.add(reg.className);
+                    }
+                    if (reg.mealType === MealType.TeachersLunch) {
+                        totals[MealType.TeachersLunch] += reg.count;
+                        if (reg.count > 0) registeredClassesToday.add(reg.className);
+                    }
                 } else if (reg.date === tomorrowStr && reg.mealType === MealType.KidsBreakfast) {
                     totals[MealType.KidsBreakfast] += reg.count;
                 }
