@@ -218,7 +218,7 @@ const ListPage: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
         />
       </div>
 
-      <div className="bg-white dark:bg-gray-800 md:shadow-lg rounded-lg">
+      <div className="bg-white dark:bg-gray-800 md:shadow-lg rounded-lg overflow-hidden">
         {paginatedData.length > 0 ? (
             <>
                 {/* Desktop Table View */}
