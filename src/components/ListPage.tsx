@@ -224,7 +224,7 @@ const ListPage: React.FC<{ setView: (view: View) => void }> = ({ setView }) => {
                 {/* Desktop Table View */}
                 <div className="desktop-table overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead className="bg-gray-50 dark:bg-gray-700 sticky top-[16px] z-10 isolation-isolate">
+                        <thead className="bg-gray-50 dark:bg-gray-700 sticky top-[0px] z-10 isolation-isolate">
                             <tr>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">STT</th>
                                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Lớp</th>
